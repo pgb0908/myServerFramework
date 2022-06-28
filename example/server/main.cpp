@@ -3,14 +3,20 @@
 //
 
 #include <iostream>
-
+#include "../../framework/net/TcpServer.h"
 
 using namespace std;
 
 int main(){
     cout << "server example" << endl;
 
-    // EvnetManager를 생성
+    // EvnetManager 생성
+
+    net::TcpServer server;
+
+    server.getEndPoint().getEventMgr().getIoEventNum().getName();
+
+    server.start();
 
 
     return 0;

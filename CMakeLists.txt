@@ -23,7 +23,9 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 
 ## project 소스코드
 set(PROJECT_SOURCES
-        framework/net/TcpServer.cpp)
+        framework/net/TcpServer.cpp
+        framework/net/InetAddress.cpp
+)
 
 target_sources(${PROJECT_NAME} PRIVATE
         ${PROJECT_SOURCES})
