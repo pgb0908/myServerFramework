@@ -1,1 +1,1 @@
-add_executable(${project} main.cpp)
+add_executable(server_tcp main.cpp)

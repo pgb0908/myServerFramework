@@ -4,10 +4,14 @@
 
 #include <iostream>
 
+
 using namespace std;
 
 int main(){
-    cout << "server" << endl;
+    cout << "server example" << endl;
+
+    // EvnetManager를 생성
+
 
     return 0;
 }
