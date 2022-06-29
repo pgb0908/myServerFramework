@@ -3,7 +3,10 @@
 //
 
 #include "MainLoopThread.h"
+#include <utility>
 
-MainLoopThread::MainLoopThread(const std::string &threadName):threadName_(threadName) {
-
+MainLoopThread::MainLoopThread(std::string threadName):
+                        threadName_(std::move(threadName))
+{
+    loop_ = std::make_shared<EventLoop>();
 }

@@ -10,15 +10,19 @@
 
 class TcpServer {
 public:
-    TcpServer() = default;
+    TcpServer();
 
-    TcpServer getAddress(InetAddress &address);
+    TcpServer& Address(InetAddress &address);
 
-    TcpServer getName(std::string name);
+    TcpServer& Name(std::string name);
 
-    TcpServer getMainLoopThread(MainLoopThread& mainLoopThread);
+    TcpServer& MainLoop(std::shared_ptr<EventLoop> loop);
 
-    TcpServer getIoEventNum(int io_nums);
+    TcpServer& IoEventNum(int io_nums);
+
+    int getIoLoopNum() const{
+        return io_num_;
+    }
 
     void start();
 
@@ -27,7 +31,7 @@ private:
     std::string name_;
     int io_num_;
 
-    MainLoopThread mainLoopThread_;
+    std::shared_ptr<EventLoop> mainLoop_;
 
 };
 

@@ -6,16 +6,22 @@
 #define MYSERVERFW_MAINLOOPTHREAD_H
 
 #include <string>
+#include "EventLoop.h"
 
 class MainLoopThread {
 public:
-    explicit MainLoopThread(const std::string& threadName = "MainLoopThead");
+    explicit MainLoopThread(std::string  threadName = "MainLoopThead");
 
     void run();
     void wait();
 
+    std::shared_ptr<EventLoop> getLoop(){
+        return loop_;
+    }
+
 private:
     std::string threadName_;
+    std::shared_ptr<EventLoop> loop_;
 };
 
 

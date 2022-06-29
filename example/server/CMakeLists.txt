@@ -1,2 +1,2 @@
-add_executable(server_tcp main.cpp)
+add_executable(server_tcp server_test.cpp)
 target_link_libraries(server_tcp myServerFW)

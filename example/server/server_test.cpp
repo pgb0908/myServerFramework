@@ -19,10 +19,15 @@ int main(){
 
 
     TcpServer server;
-    server.getAddress(endpoint).getMainLoopThread(mainLoopThread).getIoEventNum(1).getName("TCP-Server");
+
+    server.Address(endpoint)
+          .MainLoop(mainLoopThread.getLoop())
+          .IoEventNum(3)
+          .Name("TCP-Server");
 
     server.start();
 
+    std::cout << server.getIoLoopNum() << std::endl;
 
     return 0;
 }

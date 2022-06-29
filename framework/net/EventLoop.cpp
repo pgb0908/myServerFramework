@@ -3,8 +3,8 @@
 //
 
 #include "EventLoop.h"
-#include "poll/Poller.h"
 #include "Channel.h"
+#include "poll/EpollPoller.h"
 
 
 void EventLoop::queueInLoop(const std::function<void()> &f) {
@@ -19,11 +19,10 @@ EventLoop *EventLoop::getEventLoopOfCurrentThread() {
     return nullptr;
 }
 
-EventLoop::EventLoop() :   looping_(false),
-                                threadId_(std::thread::id()),
-                                quit_(false),
-                               poller_(Poller::newPoller())
-{
+EventLoop::EventLoop() : looping_(false),
+                         threadId_(std::this_thread::get_id()),
+                         quit_(false),
+                         poller_(new EpollPoller) {
 
 
 }
