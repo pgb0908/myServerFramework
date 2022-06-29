@@ -8,45 +8,59 @@
 #include <utility>
 
 
+TcpServer &TcpServer::Address(InetAddress &address) {
+    address_ = address;
 
-    TcpServer& TcpServer::Address(InetAddress& address) {
-        this->address_ = address;
+    return *this;
+}
 
-        return *this;
+TcpServer &TcpServer::Name(std::string name) {
+    name_ = name;
+
+    return *this;
+}
+
+TcpServer &TcpServer::MainLoop(std::shared_ptr<EventLoop> loop) {
+    mainLoop_ = std::move(loop);
+    return *this;
+}
+
+TcpServer &TcpServer::IoEventNum(int io_nums) {
+    if (io_nums <= 0) {
+        io_num_ = 1;
+    } else {
+        io_num_ = io_nums;
     }
 
-    TcpServer& TcpServer::Name(std::string name) {
-        this->name_ = name;
+    loopPoolPtr_ = std::make_shared<EventLoopThreadPool>(io_num_);
+    loopPoolPtr_->start();
 
-        return *this;
+    return *this;
+}
+
+void TcpServer::start() {
+    if (!address_.isUnspecified()) {
+        std::cout << "server address is not set" << std::endl;
+        return;
+    }
+    if (mainLoop_ == nullptr) {
+        std::cout << "mainThread is not set" << std::endl;
+        return;
     }
 
-    TcpServer& TcpServer::MainLoop(std::shared_ptr<EventLoop> loop) {
-        this->mainLoop_ = std::move(loop);
-        return *this;
-    }
+    mainLoop_->runInLoop(
+            [this]() -> void {
+                started_ = true;
 
-    TcpServer& TcpServer::IoEventNum(int io_nums) {
-        this->io_num_ = io_nums;
-        return *this;
-    }
+                // ioLoop 동작 정의
+                for (int i = 0; i < io_num_; i++) {}
 
-    void TcpServer::start() {
-        if(io_num_ == 0){
-            io_num_ = 1;
-        }
-        if(!address_.isUnspecified()){
-            std::cout << "server address is not set" << std::endl;
-            return;
-        }
-        if(mainLoop_ == nullptr){
-            std::cout << "mainThread is not set" << std::endl;
-            return;
-        }
+                // acceptor listen 준비
+                acceptorPtr_->listen();
+            });
 
+}
 
-    }
-
-TcpServer::TcpServer():mainLoop_(nullptr),io_num_(0) {
+TcpServer::TcpServer() : mainLoop_(nullptr), io_num_(0) {
 
 }

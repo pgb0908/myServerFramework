@@ -33,6 +33,8 @@ private:
 
     std::shared_ptr<EventLoop> mainLoop_;
 
+    bool started_{false};
+
 };
 
 
