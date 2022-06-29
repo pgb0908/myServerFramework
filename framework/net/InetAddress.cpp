@@ -4,6 +4,7 @@
 
 #include <cstring>
 #include "InetAddress.h"
+#include <arpa/inet.h>
 
 namespace net {
 
@@ -136,19 +137,12 @@ namespace net {
         char buf[64];
         if (addr_.sin_family == AF_INET)
         {
-#if defined _MSC_VER && _MSC_VER >= 1900
-            ::inet_ntop(AF_INET, (PVOID)&addr_.sin_addr, buf, sizeof(buf));
-#else
             ::inet_ntop(AF_INET, &addr_.sin_addr, buf, sizeof(buf));
-#endif
         }
         else if (addr_.sin_family == AF_INET6)
         {
-#if defined _MSC_VER && _MSC_VER >= 1900
-            ::inet_ntop(AF_INET6, (PVOID)&addr6_.sin6_addr, buf, sizeof(buf));
-#else
+
             ::inet_ntop(AF_INET6, &addr6_.sin6_addr, buf, sizeof(buf));
-#endif
         }
 
         return buf;
@@ -162,17 +156,7 @@ namespace net {
 
     const uint32_t *InetAddress::ip6NetEndian() const
     {
-// assert(family() == AF_INET6);
-#if defined __linux__ || defined __HAIKU__
         return addr6_.sin6_addr.s6_addr32;
-#elif defined _WIN32
-        // TODO is this OK ?
-    const struct in6_addr_uint *addr_temp =
-        reinterpret_cast<const struct in6_addr_uint *>(&addr6_.sin6_addr);
-    return (*addr_temp).uext.__s6_addr32;
-#else
-    return addr6_.sin6_addr.__u6_addr.__u6_addr32;
-#endif
     }
     uint16_t InetAddress::toPort() const
     {

@@ -7,8 +7,9 @@
 
 #include <cstdint>
 #include <string>
-#include <bits/sockaddr.h>
 #include <netinet/in.h>
+#include <sys/socket.h>
+
 
 namespace net {
     class InetAddress {

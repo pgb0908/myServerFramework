@@ -5,15 +5,17 @@
 #ifndef MYSERVERFW_TCPSERVER_H
 #define MYSERVERFW_TCPSERVER_H
 
+#include "InetAddress.h"
+
 namespace net{
 
     class TcpServer{
     public:
         TcpServer()=default;
 
-        TcpServer getEndPoint();
+        TcpServer getAddress(InetAddress& address);
 
-        TcpServer getName();
+        TcpServer getName(std::string name);
 
         TcpServer getEventMgr();
 
@@ -22,7 +24,8 @@ namespace net{
         void start();
 
     private:
-
+        InetAddress address_;
+        std::string name_;
 
     };
 }

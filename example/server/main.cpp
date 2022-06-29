@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include "../../framework/net/TcpServer.h"
+#include "../../framework/net/InetAddress.h"
 
 using namespace std;
 
@@ -14,7 +15,9 @@ int main(){
 
     net::TcpServer server;
 
-    server.getEndPoint().getEventMgr().getIoEventNum().getName();
+    net::InetAddress endpoint(12000);
+
+    server.getAddress(endpoint).getEventMgr().getIoEventNum().getName("TCP-Server");
 
     server.start();
 

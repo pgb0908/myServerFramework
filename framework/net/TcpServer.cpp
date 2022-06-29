@@ -4,13 +4,19 @@
 
 #include "TcpServer.h"
 
+#include <utility>
+
 namespace net{
 
-    TcpServer TcpServer::getEndPoint() {
+    TcpServer TcpServer::getAddress(InetAddress& address) {
+        address_ = address;
+
         return *this;
     }
 
-    TcpServer TcpServer::getName() {
+    TcpServer TcpServer::getName(std::string name) {
+        name_ = std::move(name);
+
         return *this;
     }
 
@@ -23,6 +29,10 @@ namespace net{
     }
 
     void TcpServer::start() {
+        if(!address_.isUnspecified()){
+            return;
+        }
+
 
     }
 }
