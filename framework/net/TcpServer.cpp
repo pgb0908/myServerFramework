@@ -6,7 +6,7 @@
 
 #include <utility>
 
-namespace net{
+
 
     TcpServer TcpServer::getAddress(InetAddress& address) {
         address_ = address;
@@ -20,11 +20,13 @@ namespace net{
         return *this;
     }
 
-    TcpServer TcpServer::getEventMgr() {
+    TcpServer TcpServer::getMainLoopThread(MainLoopThread& mainLoopThread) {
+        mainLoopThread_ = mainLoopThread;
         return *this;
     }
 
-    TcpServer TcpServer::getIoEventNum() {
+    TcpServer TcpServer::getIoEventNum(int io_nums) {
+        io_num_ = io_nums;
         return *this;
     }
 
@@ -35,4 +37,3 @@ namespace net{
 
 
     }
-}

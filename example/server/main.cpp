@@ -5,19 +5,21 @@
 #include <iostream>
 #include "../../framework/net/TcpServer.h"
 #include "../../framework/net/InetAddress.h"
+#include "../../framework/net/MainLoopThread.h"
 
 using namespace std;
 
 int main(){
     cout << "server example" << endl;
 
-    // EvnetManager 생성
+    InetAddress endpoint(12000);
 
-    net::TcpServer server;
+    // MainLoop 생성
+    MainLoopThread mainLoopThread;
 
-    net::InetAddress endpoint(12000);
 
-    server.getAddress(endpoint).getEventMgr().getIoEventNum().getName("TCP-Server");
+    TcpServer server;
+    server.getAddress(endpoint).getMainLoopThread(mainLoopThread).getIoEventNum(1).getName("TCP-Server");
 
     server.start();
 

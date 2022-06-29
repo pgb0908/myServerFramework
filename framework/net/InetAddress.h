@@ -11,7 +11,7 @@
 #include <sys/socket.h>
 
 
-namespace net {
+
     class InetAddress {
     public:
         /**
@@ -179,7 +179,7 @@ namespace net {
         bool isIpV6_{false};
         bool isUnspecified_{true};
     };
-}
+
 
 
 #endif //MYSERVERFW_INETADDRESS_H

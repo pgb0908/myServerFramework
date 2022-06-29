@@ -6,7 +6,7 @@
 #include "InetAddress.h"
 #include <arpa/inet.h>
 
-namespace net {
+
 
     static const in_addr_t kInaddrAny = INADDR_ANY;
     static const in_addr_t kInaddrLoopback = INADDR_LOOPBACK;
@@ -163,4 +163,3 @@ namespace net {
         return ntohs(portNetEndian());
     }
 
-}

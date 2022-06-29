@@ -6,30 +6,30 @@
 #define MYSERVERFW_TCPSERVER_H
 
 #include "InetAddress.h"
+#include "MainLoopThread.h"
 
-namespace net{
+class TcpServer {
+public:
+    TcpServer() = default;
 
-    class TcpServer{
-    public:
-        TcpServer()=default;
+    TcpServer getAddress(InetAddress &address);
 
-        TcpServer getAddress(InetAddress& address);
+    TcpServer getName(std::string name);
 
-        TcpServer getName(std::string name);
+    TcpServer getMainLoopThread(MainLoopThread& mainLoopThread);
 
-        TcpServer getEventMgr();
+    TcpServer getIoEventNum(int io_nums);
 
-        TcpServer getIoEventNum();
+    void start();
 
-        void start();
+private:
+    InetAddress address_;
+    std::string name_;
+    int io_num_;
 
-    private:
-        InetAddress address_;
-        std::string name_;
+    MainLoopThread mainLoopThread_;
 
-    };
-}
-
+};
 
 
 #endif //MYSERVERFW_TCPSERVER_H

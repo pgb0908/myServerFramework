@@ -25,6 +25,11 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 set(PROJECT_SOURCES
         framework/net/TcpServer.cpp
         framework/net/InetAddress.cpp
+        framework/net/MainLoopThread.cpp
+        framework/net/EventLoop.cpp
+        framework/net/poll/Poller.cpp
+        framework/net/poll/EpollPoller.cpp
+        framework/net/Channel.cpp
 )
 
 target_sources(${PROJECT_NAME} PRIVATE
