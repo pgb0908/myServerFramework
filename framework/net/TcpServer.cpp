@@ -20,8 +20,8 @@ TcpServer &TcpServer::Name(std::string name) {
     return *this;
 }
 
-TcpServer &TcpServer::MainLoop(std::shared_ptr<EventLoop> loop) {
-    mainLoop_ = std::move(loop);
+TcpServer &TcpServer::MainLoop(EventLoop* loop) {
+    mainLoop_ = loop;
     return *this;
 }
 
@@ -47,6 +47,8 @@ void TcpServer::start() {
         std::cout << "mainThread is not set" << std::endl;
         return;
     }
+
+    acceptorPtr_ = std::unique_ptr<Acceptor>(new Acceptor(mainLoop_));
 
     mainLoop_->runInLoop(
             [this]() -> void {

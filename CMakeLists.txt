@@ -30,6 +30,8 @@ set(PROJECT_SOURCES
         framework/net/poll/Poller.cpp
         framework/net/poll/EpollPoller.cpp
         framework/net/Channel.cpp
+        framework/net/EventLoopThreadPool.cpp
+        framework/net/Acceptor.cpp
 )
 
 target_sources(${PROJECT_NAME} PRIVATE

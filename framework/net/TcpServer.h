@@ -7,6 +7,8 @@
 
 #include "InetAddress.h"
 #include "MainLoopThread.h"
+#include "EventLoopThreadPool.h"
+#include "Acceptor.h"
 
 class TcpServer {
 public:
@@ -16,7 +18,7 @@ public:
 
     TcpServer& Name(std::string name);
 
-    TcpServer& MainLoop(std::shared_ptr<EventLoop> loop);
+    TcpServer& MainLoop(EventLoop* loop);
 
     TcpServer& IoEventNum(int io_nums);
 
@@ -31,7 +33,9 @@ private:
     std::string name_;
     int io_num_;
 
-    std::shared_ptr<EventLoop> mainLoop_;
+    EventLoop* mainLoop_;
+    std::shared_ptr<EventLoopThreadPool> loopPoolPtr_;
+    std::unique_ptr<Acceptor> acceptorPtr_;
 
     bool started_{false};
 
