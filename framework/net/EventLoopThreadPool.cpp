@@ -3,3 +3,11 @@
 //
 
 #include "EventLoopThreadPool.h"
+
+EventLoopThreadPool::EventLoopThreadPool(int io_num) {
+
+}
+
+void EventLoopThreadPool::start() {
+
+}

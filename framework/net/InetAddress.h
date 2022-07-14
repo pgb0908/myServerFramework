@@ -117,7 +117,7 @@
          * @return const struct sockaddr*
          */
         const struct sockaddr *getSockAddr() const {
-            return static_cast<const struct sockaddr *>((void *) (&addr6_));
+            return static_cast<const struct sockaddr *>((void *)(&addr6_));
         }
 
         /**

@@ -8,5 +8,5 @@
 MainLoopThread::MainLoopThread(std::string threadName):
                         threadName_(std::move(threadName))
 {
-    loop_ = std::make_shared<EventLoop>();
+    loop_ = new EventLoop;
 }

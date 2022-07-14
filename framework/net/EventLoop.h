@@ -20,6 +20,20 @@ public:
     EventLoop();
     ~EventLoop();
 
+    void abortNotInLoopThread();
+
+/**
+     * @brief Assertion that the current thread is the thread to which the event
+     * loop belongs. If the assertion fails, the program aborts.
+     */
+    void assertInLoopThread()
+    {
+        if (!isInLoopThread())
+        {
+            abortNotInLoopThread();
+        }
+    };
+
     /**
      * @brief Run the event loop. This method will be blocked until the event
      * loop exits.

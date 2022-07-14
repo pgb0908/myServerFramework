@@ -32,6 +32,7 @@ set(PROJECT_SOURCES
         framework/net/Channel.cpp
         framework/net/EventLoopThreadPool.cpp
         framework/net/Acceptor.cpp
+        framework/net/Socket.cpp
 )
 
 target_sources(${PROJECT_NAME} PRIVATE

@@ -15,13 +15,13 @@ public:
     void run();
     void wait();
 
-    std::shared_ptr<EventLoop> getLoop(){
+    EventLoop* getLoop(){
         return loop_;
     }
 
 private:
     std::string threadName_;
-    std::shared_ptr<EventLoop> loop_;
+    EventLoop* loop_;
 };
 
 

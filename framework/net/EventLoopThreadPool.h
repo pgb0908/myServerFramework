@@ -7,6 +7,9 @@
 
 
 class EventLoopThreadPool {
+public:
+    explicit EventLoopThreadPool(int io_num);
+    void start();
 
 };
 

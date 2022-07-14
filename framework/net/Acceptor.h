@@ -7,12 +7,22 @@
 
 
 #include "EventLoop.h"
+#include "InetAddress.h"
+#include "Channel.h"
+#include "Socket.h"
 
 class Acceptor {
+
 public:
-    explicit Acceptor(EventLoop* loop);
+    explicit Acceptor(EventLoop *loop, InetAddress address, bool reUseAddr, bool reUsePort);
 
     void listen();
+
+private:
+    InetAddress addr_;
+    EventLoop* loop_;
+    Channel acceptChannel_;
+    Socket sock_;
 
 };
 

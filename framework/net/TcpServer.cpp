@@ -39,7 +39,7 @@ TcpServer &TcpServer::IoEventNum(int io_nums) {
 }
 
 void TcpServer::start() {
-    if (!address_.isUnspecified()) {
+    if (address_.isUnspecified()) {
         std::cout << "server address is not set" << std::endl;
         return;
     }
@@ -48,7 +48,11 @@ void TcpServer::start() {
         return;
     }
 
-    acceptorPtr_ = std::unique_ptr<Acceptor>(new Acceptor(mainLoop_));
+    bool reUseAddr = true;
+    bool reUsePort = true;
+
+    acceptorPtr_ = std::unique_ptr<Acceptor>(new Acceptor(mainLoop_,address_,
+                                                                  reUseAddr, reUsePort));
 
     mainLoop_->runInLoop(
             [this]() -> void {
