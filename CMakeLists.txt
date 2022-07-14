@@ -9,7 +9,7 @@ set(myServerFW_VERSION
 
 message(STATUS "myServerFW VERSION : ${myServerFW_VERSION}")
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -pthread")
 
 
 ## project shard lib 생성
@@ -25,7 +25,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 set(PROJECT_SOURCES
         framework/net/TcpServer.cpp
         framework/net/InetAddress.cpp
-        framework/net/MainLoopThread.cpp
+        framework/net/EventLoopThread.cpp
         framework/net/EventLoop.cpp
         framework/net/poll/Poller.cpp
         framework/net/poll/EpollPoller.cpp

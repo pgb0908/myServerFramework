@@ -5,7 +5,7 @@
 #include <iostream>
 #include "../../framework/net/TcpServer.h"
 #include "../../framework/net/InetAddress.h"
-#include "../../framework/net/MainLoopThread.h"
+#include "../../framework/net/EventLoopThread.h"
 
 using namespace std;
 
@@ -15,7 +15,7 @@ int main(){
     InetAddress endpoint(12000);
 
     // MainLoop 생성
-    MainLoopThread mainLoopThread;
+    EventLoopThread mainLoopThread;
 
 
     TcpServer server;
