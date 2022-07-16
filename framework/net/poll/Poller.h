@@ -18,7 +18,7 @@ public:
 
     static Poller *newPoller();
 
-    virtual void poll(int timeout_ms, std::vector<Channel *> channelList) = 0;
+    virtual void poll(int timeout_ms, std::vector<Channel *>* channelList) = 0;
     virtual void updateChannel(Channel *channel) = 0;
     virtual void deleteChannel(Channel *channel) = 0;
 };

@@ -53,9 +53,12 @@ void TcpServer::start() {
 
     acceptorPtr_ = std::unique_ptr<Acceptor>(new Acceptor(mainLoop_,address_,
                                                                   reUseAddr, reUsePort));
+    std::cout << "tcp server : acceptor is made" << std::endl;
 
     mainLoop_->runInLoop(
             [this]() -> void {
+                std::cout << "tcp server :  run in loop" << std::endl;
+
                 started_ = true;
 
                 // ioLoop 동작 정의

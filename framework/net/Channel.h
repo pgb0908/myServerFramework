@@ -210,14 +210,16 @@ public:
         index_ = index;
     }
 
+    void handleEvent();
+    void handleEventSafely();
+
     static const int kNoneEvent;
     static const int kReadEvent;
     static const int kWriteEvent;
 
 private:
     void update();
-    void handleEvent();
-    void handleEventSafely();
+
     int setRevents(int revt)
     {
         revents_ = revt;

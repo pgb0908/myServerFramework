@@ -33,7 +33,10 @@ set(PROJECT_SOURCES
         framework/net/EventLoopThreadPool.cpp
         framework/net/Acceptor.cpp
         framework/net/Socket.cpp
-)
+
+        framework/utils/CustomQueue.cpp
+
+        )
 
 target_sources(${PROJECT_NAME} PRIVATE
         ${PROJECT_SOURCES})

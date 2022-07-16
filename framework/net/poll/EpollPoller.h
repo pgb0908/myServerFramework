@@ -14,7 +14,7 @@ public:
     EpollPoller();
     ~EpollPoller() override = default;
 
-    void poll(int timeout_ms, std::vector<Channel *> channelList) override;
+    void poll(int timeout_ms, std::vector<Channel *>* channelList) override;
 
     void updateChannel(Channel *channel) override;
 

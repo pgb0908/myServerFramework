@@ -5,7 +5,7 @@
 #include "EpollPoller.h"
 #include <unistd.h>
 
-void EpollPoller::poll(int timeout_ms, std::vector<Channel *> channelList) {
+void EpollPoller::poll(int timeout_ms, std::vector<Channel *>* channelList) {
 
 }
 
