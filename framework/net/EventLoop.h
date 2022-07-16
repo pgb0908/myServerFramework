@@ -9,12 +9,15 @@
 #include <atomic>
 #include <vector>
 #include <functional>
+#include "../utils/CustomQueue.h"
 
 
 class Channel;
 class Poller;
 
 using Func = std::function<void()>;
+using ChannelList = std::vector<Channel *>;
+using TimerId = uint64_t;
 
 class EventLoop {
 public:
@@ -79,10 +82,10 @@ private:
     Channel *currentActiveChannel_;
     bool eventHandling_;
 
-    //MpscQueue<Func> funcs_;
+    MpscLockQueue<Func> funcs_;
     //std::unique_ptr <TimerQueue> timerQueue_;
-    //MpscQueue <std::function<void()>> funcsOnQuit_;
-    //bool callingFuncs_{false};
+    MpscLockQueue <std::function<void()>> funcsOnQuit_;
+    bool callingFuncs_{false};
 
     int wakeupFd_;
     std::unique_ptr<Channel> wakeupChannelPtr_;
@@ -90,6 +93,8 @@ private:
 
     //size_t index_{std::numeric_limits<size_t>::max()};
     EventLoop **threadLocalLoopPtr_;
+
+    void doRunInLoopFuncs();
 };
 
 

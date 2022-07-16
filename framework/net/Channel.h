@@ -190,21 +190,25 @@ public:
         update();
     }
 
-    int getFd() const {
+    int fd() const
+    {
         return fd_;
     }
 
-    int getEvents() const {
+    int events() const
+    {
         return events_;
     }
+
 
     void setEvents(int events) {
         events_ = events;
     }
 
-    int getIndex() const {
+    int index()
+    {
         return index_;
-    }
+    };
 
     void setIndex(int index) {
         index_ = index;
@@ -218,6 +222,9 @@ public:
     static const int kWriteEvent;
 
 private:
+    friend class EpollPoller;
+
+
     void update();
 
     int setRevents(int revt)

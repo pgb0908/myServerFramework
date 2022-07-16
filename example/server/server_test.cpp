@@ -22,12 +22,14 @@ int main(){
 
     server.Address(endpoint)
           .MainLoop(mainLoopThread.getLoop())
-          .IoEventNum(3)
+          //.IoEventNum(3)
           .Name("TCP-Server");
 
     server.start();
 
     std::cout << server.getIoLoopNum() << std::endl;
+
+    mainLoopThread.wait();
 
     return 0;
 }

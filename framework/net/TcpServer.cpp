@@ -26,8 +26,8 @@ TcpServer &TcpServer::MainLoop(EventLoop* loop) {
 }
 
 TcpServer &TcpServer::IoEventNum(int io_nums) {
-    if (io_nums <= 0) {
-        io_num_ = 1;
+    if (io_nums < 0) {
+        io_num_ = 0;
     } else {
         io_num_ = io_nums;
     }

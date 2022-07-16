@@ -8,23 +8,27 @@
 #include <map>
 #include <sys/epoll.h>
 #include "Poller.h"
+#include "../EventLoop.h"
 
 class EpollPoller : public Poller {
 public:
-    EpollPoller();
-    ~EpollPoller() override = default;
+    explicit EpollPoller(EventLoop *loop);
+    ~EpollPoller() override;
 
     void poll(int timeout_ms, std::vector<Channel *>* channelList) override;
 
     void updateChannel(Channel *channel) override;
 
-    void deleteChannel(Channel *channel) override;
+    void removeChannel(Channel *channel) override;
 
 private:
     static const int kInitEventListSize = 16;
     int epollfd_;
     std::vector< epoll_event> events_;
-    std::map<int, Channel *> channels_;
+    void update(int operation, Channel *channel);
+    using ChannelMap = std::map<int, Channel *>;
+    ChannelMap channels_;
+    void fillActiveChannels(int numEvents, ChannelList *activeChannels) const;
 };
 
 

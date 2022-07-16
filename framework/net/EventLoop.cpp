@@ -29,7 +29,7 @@ thread_local EventLoop *t_loopInThisThread = nullptr;
 EventLoop::EventLoop() : looping_(false),
                          threadId_(std::this_thread::get_id()),
                          quit_(false),
-                         poller_(new EpollPoller),
+                         poller_(new EpollPoller(this)),
                          currentActiveChannel_(nullptr),
                          eventHandling_(false),
                          wakeupFd_(createEventfd()),
@@ -45,6 +45,9 @@ EventLoop::EventLoop() : looping_(false),
 
     t_loopInThisThread = this;
 
+    wakeupChannelPtr_->setReadCallback(std::bind(&EventLoop::wakeupRead, this));
+    wakeupChannelPtr_->enableReading();
+
 }
 
 void EventLoop::queueInLoop(const std::function<void()> &f) {
@@ -52,7 +55,7 @@ void EventLoop::queueInLoop(const std::function<void()> &f) {
 }
 
 void EventLoop::queueInLoop(Func &&func) {
-    //funcs_.enqueue(func);
+    funcs_.enqueue(func);
     if (!isInLoopThread() || !looping_.load(std::memory_order_acquire))
     {
         wakeup();
@@ -103,15 +106,15 @@ void EventLoop::loop() {
         currentActiveChannel_ = nullptr;
         eventHandling_ = false;
         // std::cout << "looping" << endl;
-        //doRunInLoopFuncs();
+        doRunInLoopFuncs();
     }
     looping_.store(false, std::memory_order_release);
 
-/*    Func f;
+    Func f;
     while (funcsOnQuit_.dequeue(f))
     {
         f();
-    }*/
+    }
 
 }
 
@@ -128,4 +131,32 @@ void EventLoop::wakeup() const {
     uint64_t tmp = 1;
     int ret = write(wakeupFd_, &tmp, sizeof(tmp));
     (void)ret;
+}
+
+void EventLoop::doRunInLoopFuncs() {
+    callingFuncs_ = true;
+    {
+        // the destructor for the Func may itself insert a new entry into the
+        // queue
+        while (!funcs_.empty())
+        {
+            Func func;
+            while (funcs_.dequeue(func))
+            {
+                func();
+            }
+        }
+    }
+    callingFuncs_ = false;
+}
+
+void EventLoop::wakeupRead() {
+    ssize_t ret = 0;
+
+    uint64_t tmp;
+    ret = read(wakeupFd_, &tmp, sizeof(tmp));
+
+    if (ret < 0){
+        std::cout << "wakeup read error" << std::endl;
+    }
 }

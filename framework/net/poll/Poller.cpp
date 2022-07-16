@@ -5,6 +5,3 @@
 #include "Poller.h"
 #include "EpollPoller.h"
 
-Poller* Poller::newPoller() {
-    return new EpollPoller();
-}
