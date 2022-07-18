@@ -63,7 +63,7 @@ void EventLoop::queueInLoop(Func &&func) {
 }
 
 EventLoop *EventLoop::getEventLoopOfCurrentThread() {
-    return nullptr;
+    return t_loopInThisThread;
 }
 
 EventLoop::~EventLoop() {
@@ -74,12 +74,16 @@ void EventLoop::moveToCurrentThread() {
 
 }
 
-void EventLoop::updateChannel(Channel *chl) {
-
+void EventLoop::updateChannel(Channel *channel) {
+    assert(channel->ownerLoop() == this);
+    assertInLoopThread();
+    poller_->updateChannel(channel);
 }
 
-void EventLoop::removeChannel(Channel *chl) {
-
+void EventLoop::removeChannel(Channel *channel) {
+    assert(channel->ownerLoop() == this);
+    assertInLoopThread();
+    poller_->removeChannel(channel);
 }
 
 void EventLoop::abortNotInLoopThread() {
@@ -98,9 +102,10 @@ void EventLoop::loop() {
         poller_->poll(kPollTimeMs, &activeChannels_);
 
         eventHandling_ = true;
-        for (auto & activeChannel : activeChannels_)
+        for (auto it = activeChannels_.begin(); it != activeChannels_.end();
+             ++it)
         {
-            currentActiveChannel_ = activeChannel;
+            currentActiveChannel_ = *it;
             currentActiveChannel_->handleEvent();
         }
         currentActiveChannel_ = nullptr;

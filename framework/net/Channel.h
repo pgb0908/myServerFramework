@@ -212,7 +212,12 @@ public:
 
     void setIndex(int index) {
         index_ = index;
-    }
+    };
+
+    EventLoop *ownerLoop()
+    {
+        return loop_;
+    };
 
     void handleEvent();
     void handleEventSafely();

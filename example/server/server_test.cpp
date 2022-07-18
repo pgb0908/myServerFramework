@@ -12,7 +12,7 @@ using namespace std;
 int main(){
     cout << "server example" << endl;
 
-    InetAddress endpoint(12000);
+    InetAddress endpoint(13000);
 
     // MainLoop 생성
     EventLoopThread mainLoopThread;

@@ -9,14 +9,17 @@
 #include <cassert>
 #include "../Channel.h"
 
+
 const int kNew = -1;
 const int kAdded = 1;
 const int kDeleted = 2;
 
-EpollPoller::EpollPoller(EventLoop *loop) : Poller(loop) {
-    epollfd_ = ::epoll_create1(EPOLL_CLOEXEC);
-    events_.reserve(kInitEventListSize);
-}
+EpollPoller::EpollPoller(EventLoop *loop) : Poller(loop),
+                                            epollfd_(::epoll_create1(EPOLL_CLOEXEC)),
+                                            events_(kInitEventListSize)
+                                            {
+
+                                            }
 
 void EpollPoller::poll(int timeoutMs, std::vector<Channel *>* activeChannels) {
     int numEvents = ::epoll_wait(epollfd_,
@@ -29,7 +32,7 @@ void EpollPoller::poll(int timeoutMs, std::vector<Channel *>* activeChannels) {
     {
         // LOG_TRACE << numEvents << " events happended";
 
-        (numEvents, activeChannels);
+        fillActiveChannels(numEvents, activeChannels);
         if (static_cast<size_t>(numEvents) == events_.size())
         {
             events_.resize(events_.size() * 2);

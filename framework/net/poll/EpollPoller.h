@@ -10,6 +10,8 @@
 #include "Poller.h"
 #include "../EventLoop.h"
 
+using EventList = std::vector<struct epoll_event>;
+
 class EpollPoller : public Poller {
 public:
     explicit EpollPoller(EventLoop *loop);
@@ -24,7 +26,7 @@ public:
 private:
     static const int kInitEventListSize = 16;
     int epollfd_;
-    std::vector< epoll_event> events_;
+    EventList events_;
     void update(int operation, Channel *channel);
     using ChannelMap = std::map<int, Channel *>;
     ChannelMap channels_;
